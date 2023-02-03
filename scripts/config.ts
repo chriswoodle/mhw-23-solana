@@ -39,6 +39,8 @@ const ammoData = JSON.parse(fs.readFileSync(".keys/ammo-token.json").toString())
 const ammoMintKeypair = Keypair.fromSecretKey(new Uint8Array(ammoData))
 const ammoMintAddress = ammoMintKeypair.publicKey;
 
+const userData = JSON.parse(fs.readFileSync("/home/chris/.config/solana/id.json").toString());
+const userKeypair = Keypair.fromSecretKey(new Uint8Array(userData))
 
 export {
     program,
@@ -51,4 +53,5 @@ export {
     ammoMintAddress,
     getShotMintAuthorityPDA,
     getAmmoMintAuthorityPDA,
+    userKeypair
 }

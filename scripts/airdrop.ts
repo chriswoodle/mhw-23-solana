@@ -1,5 +1,5 @@
-import { mintTo }  from "@solana/spl-token";
-import { shotMintKeypair, connection, randomPayer } from "./config";
+import { mintTo, transferChecked }  from "@solana/spl-token";
+import { shotMintKeypair, connection, randomPayer, userKeypair } from "./config";
 import { TokenHelper } from "./utils/token-helper";
 import { User } from "./utils/user";
 
@@ -10,11 +10,22 @@ export const airdropShot = async () => {
 
     await mintTo(
         connection,
-        await randomPayer(),
+        userKeypair,
         shotMintKeypair.publicKey,
         user.shotTokenBag,
         shotMintKeypair, // a pubkey is not enough, otherwise anyone would be printing tokens!
         1_000_000_000,
+        []
+    );
+
+    await transferChecked(
+        connection,
+        userKeypair,
+        userKeypair.publicKey,
+        await randomPayer(),
+        user.shotTokenBag,
+        shotMintKeypair, 
+        1_000_000,
         []
     );
 
